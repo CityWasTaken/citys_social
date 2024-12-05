@@ -1,15 +1,14 @@
-// This file defines the controller functions for handling API requests.
 import User from '../models/User.js';
 import Thought from '../models/Thought.js';
-// DONE
+// GET all users
 export async function getAllUsers(_, res) {
     const user = await User.find();
     res.json({
         user: user
     });
 }
-// DONE
-export async function getSingleUserById(req, res) {
+// GET single user by ID
+export async function getUserById(req, res) {
     const user_id = req.params.user_id;
     const user = await User.findById(user_id).populate({
         path: 'thoughts',
@@ -19,15 +18,13 @@ export async function getSingleUserById(req, res) {
         user: user
     });
 }
-// DONE
+// POST create new user
 export async function createUser(req, res) {
-    // put the code that might throw an error. 'Try to execute it'.
     try {
         const user = await User.create(req.body);
         res.json({
             user: user
         });
-        // catch - if an error occurs in the try block, the code inside the catch block will run.
     }
     catch (error) {
         const errors = [];
@@ -46,7 +43,7 @@ export async function createUser(req, res) {
     }
 }
 ;
-// DONE
+// PUT update user by Id
 export async function updateUserById(req, res) {
     const user_id = req.params.user_id;
     const username = req.body.username;
@@ -58,7 +55,7 @@ export async function updateUserById(req, res) {
         user: updatedUser
     });
 }
-// DONE
+// DELETE user by Id
 export async function deleteUserById(req, res) {
     const user_id = req.params.user_id;
     await User.deleteOne({
@@ -68,7 +65,7 @@ export async function deleteUserById(req, res) {
         message: "User removed successfully."
     });
 }
-// DONE
+// POST add friend to friends list
 export async function addFriendToFriendsList(req, res) {
     const friendId = req.params.friendId;
     await User.findByIdAndUpdate(req.params.userId, {
@@ -78,7 +75,7 @@ export async function addFriendToFriendsList(req, res) {
         message: "friend added",
     });
 }
-/// DONE
+/// DELETE friend by Id
 export async function deleteFriendById(req, res) {
     const userId = req.params.userId;
     const friendId = req.params.friendId;
@@ -89,7 +86,7 @@ export async function deleteFriendById(req, res) {
         message: 'Friend deleted'
     });
 }
-// DONE
+// GET all thoughts from all users
 export async function getAllThoughts(_, res) {
     try {
         const thoughts = await Thought.find().populate({
@@ -101,8 +98,8 @@ export async function getAllThoughts(_, res) {
         res.status(500).json({ message: 'Server error', error });
     }
 }
-// DONE
-export async function getSingleThoughtById(req, res) {
+// GET single thought by thought Id
+export async function getThoughtById(req, res) {
     const thought_id = req.params.thought_id;
     const user = await Thought.findById(thought_id);
     res.json({
@@ -110,7 +107,7 @@ export async function getSingleThoughtById(req, res) {
     });
 }
 ;
-// DONE
+// POST add new thought
 export async function addNewThought(req, res) {
     const thought = await Thought.create(req.body);
     await User.findByIdAndUpdate(req.body.user, {
@@ -121,7 +118,7 @@ export async function addNewThought(req, res) {
     });
 }
 ;
-// DONE
+// PUT update thought by thought Id
 export async function updateThoughtById(req, res) {
     const thought_id = req.params.thought_id;
     const thoughtText = req.body.thoughtText;
@@ -133,7 +130,7 @@ export async function updateThoughtById(req, res) {
         thought: updatedThought
     });
 }
-// DONE
+// DELETE thought by thought Id
 export async function deleteThoughtById(req, res) {
     const thought_id = req.params.thought_id;
     await Thought.deleteOne({
@@ -143,7 +140,7 @@ export async function deleteThoughtById(req, res) {
         message: "Thought removed successfully."
     });
 }
-// DONE
+// POST add a reaction to a thought
 export async function addNewReaction(req, res) {
     try {
         const thought_id = req.params.thought_id;
@@ -160,7 +157,7 @@ export async function addNewReaction(req, res) {
         res.status(500).json({ message: 'Server error', error });
     }
 }
-// DONE
+// DELETE reaction by reaction Id
 export async function deleteReactionById(req, res) {
     const { thoughtId, reaction_id } = req.params;
     try {

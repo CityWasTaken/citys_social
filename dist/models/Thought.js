@@ -1,4 +1,3 @@
-// This file is describing the structure and behavior of a Thought object.
 import mongoose from 'mongoose';
 const { Schema, model, Types } = mongoose;
 const reactionSchema = new Schema({
@@ -9,7 +8,7 @@ const reactionSchema = new Schema({
     reactionBody: {
         type: String,
         required: true,
-        maxLength: [280, 'Your reaction may not exceed 280 characters']
+        maxLength: [200, 'Your reaction may not exceed 200 characters']
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -31,18 +30,15 @@ const reactionSchema = new Schema({
     },
     id: false,
 });
-const thoughtSchema = new Schema(
-// Each 'Thought' object is going to have 'thought text', 'created at', 'username', and 'reactions'
-{
+const thoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
         minLength: [1, 'Your thought text must be at least one character'],
-        maxLength: [280, 'Your thought text may not exceed 280 characters'],
+        maxLength: [200, 'Your thought text may not exceed 200 characters'],
     },
     createdAt: {
         type: Date,
-        // - This automatically sets the current date and time when a new document is created.
         default: Date.now,
         get: (timestamp) => timestamp.toLocaleString(),
     },

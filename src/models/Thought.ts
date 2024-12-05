@@ -11,7 +11,7 @@ const reactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      maxLength: [280, 'Your reaction may not exceed 280 characters']
+      maxLength: [200, 'Your reaction may not exceed 200 characters']
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -43,7 +43,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
       minLength: [1, 'Your thought text must be at least one character'],
-      maxLength: [280, 'Your thought text may not exceed 280 characters'],
+      maxLength: [200, 'Your thought text may not exceed 200 characters'],
     },
     createdAt: {
       type: Date,
